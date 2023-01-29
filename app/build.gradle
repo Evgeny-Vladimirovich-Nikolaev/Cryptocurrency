@@ -1,16 +1,38 @@
+//com.nobilis.cryptocurrency
+
+
+
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+
+    id 'com.google.devtools.ksp' version '1.7.20-1.0.7'
+
+    id 'idea'
+
+
 }
+
+idea {
+    module {
+        // Not using += due to https://github.com/gradle/gradle/issues/8749
+        sourceDirs = sourceDirs + file('build/generated/ksp/main/kotlin') // or tasks["kspKotlin"].destination
+        testSourceDirs = testSourceDirs + file('build/generated/ksp/test/kotlin')
+        generatedSourceDirs = generatedSourceDirs + file('build/generated/ksp/main/kotlin') + file('build/generated/ksp/test/kotlin')
+    }
+}
+
 
 android {
     namespace 'com.nobilis.cryptocurrency'
-    compileSdk 32
+    compileSdk 33
 
     defaultConfig {
         applicationId "com.nobilis.cryptocurrency"
         minSdk 24
-        targetSdk 32
+        targetSdk 33
         versionCode 1
         versionName "1.0"
 
@@ -32,13 +54,79 @@ android {
     }
 }
 
+kotlin {
+    sourceSets {
+        main.kotlin.srcDirs += 'build/generated/ksp/main/kotlin'
+        test.kotlin.srcDirs += 'build/generated/ksp/test/kotlin'
+    }
+}
+
 dependencies {
 
-    implementation 'androidx.core:core-ktx:1.7.0'
-    implementation 'androidx.appcompat:appcompat:1.6.0'
-    implementation 'com.google.android.material:material:1.8.0'
+    implementation 'androidx.core:core-ktx:1.9.0'
+    implementation 'androidx.appcompat:appcompat:1.5.1'
+    implementation 'com.google.android.material:material:1.7.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    //implementation 'io.reactivex.rxjava3:rxandroid:3.0.2'
+    //implementation 'io.reactivex.rxjava3:rxjava:3.1.5'
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.7.0'
+
+    implementation 'com.google.devtools.ksp:symbol-processing-api:1.7.20-1.0.7'
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:1.7.20"
+    //implementation project(':test-processor')
+//    ksp project(':test-processor')
+
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.7.21'
+    //implementation project(':test-processor')
+//    ksp project(':test-processor')
+
+
+    def lifecycle_version = "2.5.1"
+    def arch_version = "2.1.0"
+
+    // ViewModel
+    implementation "androidx.lifecycle:lifecycle-viewmodel:$lifecycle_version"
+    // LiveData
+    implementation "androidx.lifecycle:lifecycle-livedata:$lifecycle_version"
+
+    // Annotation processor
+    annotationProcessor "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"
+
+    // optional - ReactiveStreams support for LiveData
+    implementation "androidx.lifecycle:lifecycle-reactivestreams:$lifecycle_version"
+
+
+
+    def room_version = "2.4.3"
+
+    implementation "androidx.room:room-runtime:$room_version"
+    annotationProcessor "androidx.room:room-compiler:$room_version"
+
+    // To use Kotlin annotation processing tool (kapt)
+    kapt "androidx.room:room-compiler:$room_version"
+    // To use Kotlin Symbol Processing (KSP)
+    ksp "androidx.room:room-compiler:$room_version"
+
+    // optional - RxJava2 support for Room
+    //implementation "androidx.room:room-rxjava2:$room_version"
+
+    // optional - RxJava3 support for Room
+    //implementation "androidx.room:room-rxjava3:$room_version"
+
+    // optional - Guava support for Room, including Optional and ListenableFuture
+    //implementation "androidx.room:room-guava:$room_version"
+
+    // optional - Test helpers
+    //testImplementation "androidx.room:room-testing:$room_version"
+
+    // optional - Paging 3 Integration
+    implementation "androidx.room:room-paging:$room_version"
+
+    implementation 'com.squareup.picasso:picasso:2.8'
+
     testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.4'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0'
 }
