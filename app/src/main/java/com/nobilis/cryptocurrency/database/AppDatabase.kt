@@ -8,7 +8,6 @@ import com.nobilis.cryptocurrency.pojo.CoinPriceInfo
 
 @Database(entities = [CoinPriceInfo::class], version = 1, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
-
     companion object {
 
         private var db: AppDatabase? = null
@@ -18,7 +17,7 @@ abstract class AppDatabase : RoomDatabase() {
         fun getInstance(context: Context): AppDatabase {
             synchronized(LOCK) {
                 db?.let { return it }
-                val instance: AppDatabase =
+                val instance =
                     Room.databaseBuilder(
                         context,
                         AppDatabase::class.java,
@@ -30,6 +29,5 @@ abstract class AppDatabase : RoomDatabase() {
         }
     }
 
-    abstract fun CoinPriceInfoDao(): CoinPriceInfoDao
-
+    abstract fun coinPriceInfoDao(): CoinPriceInfoDao
 }
