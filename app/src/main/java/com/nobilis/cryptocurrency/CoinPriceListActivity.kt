@@ -1,13 +1,13 @@
 package com.nobilis.cryptocurrency
 
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.RecyclerView
 import com.nobilis.cryptocurrency.adapters.CoinInfoAdapter
 import com.nobilis.cryptocurrency.pojo.CoinPriceInfo
-import kotlinx.android.synthetic.main.activity_coin_prce_list.*
+
 
 class CoinPriceListActivity : AppCompatActivity() {
 
@@ -17,9 +17,14 @@ class CoinPriceListActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_coin_prce_list)
         val adapter = CoinInfoAdapter(this)
+        val rvCoinPriceList = findViewById<RecyclerView>(R.id.rvCoinPriceList)
         adapter.onCoinClickListener = object : CoinInfoAdapter.OnCoinClickListener {
             override fun onCoinClick(coinPriceInfo: CoinPriceInfo) {
-                Log.d("ON_CLICK_TEST", coinPriceInfo.fromSymbol)
+                val intent = CoinDetailActivity.newIntent(
+                    this@CoinPriceListActivity,
+                    coinPriceInfo.fromSymbol
+                )
+                startActivity(intent)
             }
         }
         rvCoinPriceList.adapter = adapter
