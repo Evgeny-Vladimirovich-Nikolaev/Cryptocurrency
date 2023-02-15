@@ -11,7 +11,6 @@ import com.nobilis.cryptocurrency.pojo.CoinPriceInfo
 import com.nobilis.cryptocurrency.pojo.CoinPriceInfoRawData
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import java.util.concurrent.TimeUnit
 
 class CoinViewModel(application: Application) : AndroidViewModel(application) {
 

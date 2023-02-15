@@ -3,19 +3,20 @@ package com.nobilis.cryptocurrency
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.nobilis.cryptocurrency.databinding.ActivityCoinDetailBinding
 import com.squareup.picasso.Picasso
 
 class CoinDetailActivity : AppCompatActivity() {
 
     private lateinit var viewModel: CoinViewModel
+    private lateinit var binding: ActivityCoinDetailBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding = ActivityCoinDetailBinding.inflate(layoutInflater)
         setContentView(R.layout.activity_coin_detail)
         if (!intent.hasExtra(EXTRA_FROM_SYMBOL)) {
             finish()
@@ -23,14 +24,14 @@ class CoinDetailActivity : AppCompatActivity() {
         }
         val fromSymbol = intent.getStringExtra(EXTRA_FROM_SYMBOL)
         viewModel = ViewModelProvider(this)[CoinViewModel::class.java]
-        val tvPrice = findViewById<TextView>(R.id.tvPrice)
-        val tvMinPrice = findViewById<TextView>(R.id.tvPrice)
-        val tvMaxPrice = findViewById<TextView>(R.id.tvPrice)
-        val tvLastMarket = findViewById<TextView>(R.id.tvPrice)
-        val tvLastUpdate = findViewById<TextView>(R.id.tvPrice)
-        val tvFromSymbol = findViewById<TextView>(R.id.tvPrice)
-        val tvToSymbol = findViewById<TextView>(R.id.tvPrice)
-        val ivLogoCoin = findViewById<ImageView>(R.id.ivLogoCoin)
+        val tvPrice = binding.tvPrice
+        val tvMinPrice = binding.tvMinPrice
+        val tvMaxPrice = binding.tvMaxPrice
+        val tvLastMarket = binding.tvLastMarket
+        val tvLastUpdate = binding.tvLastUpdate
+        val tvFromSymbol = binding.tvFromSymbol
+        val tvToSymbol = binding.tvToSymbol
+        val ivLogoCoin = binding.ivLogoCoin
         viewModel.getDetailInfo(fromSymbol).observe(this, Observer {
             tvPrice.text = it.price.toString()
             tvMinPrice.text = it.lowDay.toString()
